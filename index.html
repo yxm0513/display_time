@@ -1,0 +1,43 @@
+<html>
+<head>
+<script type="text/javascript">
+
+function getTime(){
+  var xmlhttp = new XMLHttpRequest();
+	xmlhttp.open("GET", "time", true);
+	xmlhttp.onreadystatechange = function(){
+			if(xmlhttp.readyState === 4){
+					if(xmlhttp.status === 200){	
+            var data = JSON.parse(xmlhttp.responseText);
+            var timeStamp = parseInt(data.data.t);
+            startTime(timeStamp);
+            setTimeout(function(){
+              getTime();
+            },50);
+					}
+			}
+	};
+	xmlhttp.send(null);
+}
+
+function startTime(timeStamp)
+{
+  var today=new Date(parseInt(timeStamp));
+  var h=today.getHours();
+  var m=today.getMinutes();
+  var s=today.getSeconds();
+  var ms=today.getMilliseconds();
+  document.getElementById('txt1').innerHTML= h+":"+m+":"+s+"-"+ms;
+  document.getElementById('txt2').innerHTML= h+":"+m+":"+s+"-"+ms;
+}
+
+
+
+</script>
+</head>
+<body onload="getTime()">
+<div align="center">
+<div id="txt1" style="color:red; font-size:50"></div>
+<div id="txt2" style="margin-top:400; color:green; font-size:200"></div>
+</body>
+</html>
